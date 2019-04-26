@@ -181,6 +181,13 @@ func reflectValue(values url.Values, val reflect.Value, scope string) error {
 			continue
 		}
 
+		for sv.Kind() == reflect.Ptr {
+			if sv.IsNil() {
+				break
+			}
+			sv = sv.Elem()
+		}
+
 		if sv.Kind() == reflect.Slice || sv.Kind() == reflect.Array {
 			var del byte
 			if opts.Contains("comma") {
@@ -215,13 +222,6 @@ func reflectValue(values url.Values, val reflect.Value, scope string) error {
 				}
 			}
 			continue
-		}
-
-		for sv.Kind() == reflect.Ptr {
-			if sv.IsNil() {
-				break
-			}
-			sv = sv.Elem()
 		}
 
 		if sv.Type() == timeType {
