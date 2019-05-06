@@ -188,6 +188,13 @@ func reflectValue(values url.Values, val reflect.Value, scope string) error {
 			sv = sv.Elem()
 		}
 
+		if sv.Kind() == reflect.Map {
+			for k, v := range sv.Interface().(map[string]string) {
+				values.Add(fmt.Sprintf("%s[%s]", name, k), v)
+			}
+			continue
+		}
+
 		if sv.Kind() == reflect.Slice || sv.Kind() == reflect.Array {
 			var del byte
 			if opts.Contains("comma") {
