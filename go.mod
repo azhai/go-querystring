@@ -1,1 +1,3 @@
-module github.com/lob/go-querystring
+module github.com/azhai/go-querystring
+
+go 1.14
